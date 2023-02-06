@@ -1,4 +1,49 @@
-<div align="center">
+### 基础作业1: 花卉分类
+
+配置文件为:
+```
+configs\convnext\convnext-tiny_32xb128_in1k_hw.py
+```
+
+有改动的数据配置文件为:
+```
+configs\_base_\datasets\imagenet_bs32_hw1_.py
+```
+
+我的数据 `train.txt` 和 `val.txt` 中有前缀:
+```
+hw1/flower_dataset\val\daisy\14816364517_2423021484_m.jpg 0
+hw1/flower_dataset\val\daisy\7416083788_fcb4c4f27e_n.jpg 0
+hw1/flower_dataset\val\daisy\18684594849_7dd3634f5e_n.jpg 0
+hw1/flower_dataset\val\daisy\6136947177_47ff445eb4_n.jpg 0
+```
+
+于是我在 `mmcls/datasets/pipelines/loading.py` 添加了 `ChangePathInWindows` 类:
+```python
+@PIPELINES.register_module()
+class ChangePathInWindows(object):
+
+    def __init__(self,
+                 remove="hw1/flower_dataset/"):
+        self.remove = remove
+
+
+    def __call__(self, results):
+        results['img_info']['filename'] = results['img_info']['filename'].replace("\\", '/')
+        results['img_info']['filename'] = results['img_info']['filename'].replace(self.remove, "")
+        return results
+
+    def __repr__(self):
+        repr_str = (f'{self.__class__.__name__}('
+                    'Change "\\" => "/", ',
+                    f"remove '{self.remove}')")
+        return repr_str
+```
+
+训练 log 和 模型文件在
+https://github.com/DrRyanHuang/mmclassification/releases/tag/HW1
+
+<!-- <div align="center">
 
 <img src="resources/mmcls-logo.png" width="600"/>
   <div>&nbsp;</div>
@@ -203,4 +248,4 @@ This project is released under the [Apache 2.0 license](LICENSE).
 - [MMFlow](https://github.com/open-mmlab/mmflow): OpenMMLab optical flow toolbox and benchmark.
 - [MMEditing](https://github.com/open-mmlab/mmediting): OpenMMLab image and video editing toolbox.
 - [MMGeneration](https://github.com/open-mmlab/mmgeneration): OpenMMLab image and video generative models toolbox.
-- [MMDeploy](https://github.com/open-mmlab/mmdeploy): OpenMMLab model deployment framework.
+- [MMDeploy](https://github.com/open-mmlab/mmdeploy): OpenMMLab model deployment framework. -->

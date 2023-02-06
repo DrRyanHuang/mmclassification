@@ -68,3 +68,25 @@ class LoadImageFromFile(object):
                     f"color_type='{self.color_type}', "
                     f'file_client_args={self.file_client_args})')
         return repr_str
+
+
+@PIPELINES.register_module()
+class ChangePathInWindows(object):
+
+    def __init__(self,
+                 remove="hw1/flower_dataset/"):
+        self.remove = remove
+
+
+    def __call__(self, results):
+        results['img_info']['filename'] = results['img_info']['filename'].replace("\\", '/')
+        results['img_info']['filename'] = results['img_info']['filename'].replace(self.remove, "")
+        return results
+
+    def __repr__(self):
+        repr_str = (f'{self.__class__.__name__}('
+                    'Change "\\" => "/", ',
+                    f"remove '{self.remove}')")
+        return repr_str
+    
+    
