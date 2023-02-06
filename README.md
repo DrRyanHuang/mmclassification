@@ -5,7 +5,7 @@
 configs/vgg/vgg16_8xb64_coco.py
 ```
 
-创建了 COCO 数据集, 在:
+创建了 COCO 数据类, 在:
 ```
 mmcls\datasets\coco.py
 ```
