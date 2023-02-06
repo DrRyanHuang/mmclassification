@@ -1,4 +1,41 @@
-<div align="center">
+进阶作业1: COCO数据集80类多分类任务
+
+配置在:
+```
+configs/vgg/vgg16_8xb64_coco.py
+```
+
+创建了 COCO 数据集, 在:
+```
+mmcls\datasets\coco.py
+```
+提了 pr 位置在 https://github.com/open-mmlab/mmclassification/pull/1351
+
+训练 log 和 模型文件在 https://github.com/DrRyanHuang/mmclassification/releases/tag/HW++
+
+
+超算训练脚本:
+```sh
+#!/bin/sh
+
+module load anaconda/2021.05
+module load cuda/11.1
+module load gcc/7.3
+
+# 激活环境
+source activate mm
+
+# 刷新⽇志缓存
+export PYTHONUNBUFFERED=1
+
+# 训练模型
+# python tools/train.py configs/vgg/vgg16_8xb16_coco.py
+
+./tools/dist_train.sh   configs/vgg/vgg16_8xb64_coco.py   8
+```
+
+
+<!-- <div align="center">
 
 <img src="resources/mmcls-logo.png" width="600"/>
   <div>&nbsp;</div>
@@ -203,4 +240,4 @@ This project is released under the [Apache 2.0 license](LICENSE).
 - [MMFlow](https://github.com/open-mmlab/mmflow): OpenMMLab optical flow toolbox and benchmark.
 - [MMEditing](https://github.com/open-mmlab/mmediting): OpenMMLab image and video editing toolbox.
 - [MMGeneration](https://github.com/open-mmlab/mmgeneration): OpenMMLab image and video generative models toolbox.
-- [MMDeploy](https://github.com/open-mmlab/mmdeploy): OpenMMLab model deployment framework.
+- [MMDeploy](https://github.com/open-mmlab/mmdeploy): OpenMMLab model deployment framework. -->
